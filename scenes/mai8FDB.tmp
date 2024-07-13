@@ -1,0 +1,154 @@
+[gd_scene load_steps=11 format=3 uid="uid://h3f7co8rfxua"]
+
+[ext_resource type="PackedScene" uid="uid://bsap4pbcd2tdf" path="res://scenes/floor.tscn" id="1_r4yo0"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_ylew5"]
+[ext_resource type="PackedScene" uid="uid://dhuhgu06wtw1q" path="res://scenes/character.tscn" id="2_q82nf"]
+[ext_resource type="PackedScene" uid="uid://y173poibhpac" path="res://scenes/scientist.tscn" id="3_1w0ry"]
+[ext_resource type="PackedScene" uid="uid://b5v6u4twias3g" path="res://scenes/bullet.tscn" id="5_p6qbn"]
+[ext_resource type="Texture2D" uid="uid://b7jsv086yv0bm" path="res://art/coin.png" id="6_gxbc5"]
+[ext_resource type="FontFile" uid="uid://cwo2tc2qtq41u" path="res://karmatic-arcade/ka1.ttf" id="6_qiyce"]
+[ext_resource type="AudioStream" uid="uid://ctqh3rwbshlko" path="res://sfx/shot.mp3" id="8_vd7eb"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_km12e"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_jue3u"]
+a = Vector2(0, 576)
+
+[node name="main" type="Node"]
+script = ExtResource("1_ylew5")
+bullet_scene = ExtResource("5_p6qbn")
+scientist_scene = ExtResource("3_1w0ry")
+
+[node name="floor" parent="." instance=ExtResource("1_r4yo0")]
+
+[node name="character" parent="." instance=ExtResource("2_q82nf")]
+position = Vector2(2816, 560)
+
+[node name="floorbody" type="StaticBody2D" parent="."]
+collision_layer = 255
+collision_mask = 255
+
+[node name="top" type="CollisionShape2D" parent="floorbody"]
+shape = SubResource("SegmentShape2D_km12e")
+
+[node name="bottom" type="CollisionShape2D" parent="floorbody"]
+shape = SubResource("SegmentShape2D_jue3u")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Coin" type="Sprite2D" parent="HUD"]
+position = Vector2(19, 99)
+scale = Vector2(3.25, 3.25)
+texture = ExtResource("6_gxbc5")
+
+[node name="Score" type="Label" parent="HUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 8.0
+offset_top = 24.0
+offset_right = 206.0
+offset_bottom = 59.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+
+[node name="BestScore" type="Label" parent="HUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 226.0
+offset_bottom = 82.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 15
+vertical_alignment = 1
+
+[node name="Coins" type="Label" parent="HUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 40.0
+offset_top = 88.0
+offset_right = 92.0
+offset_bottom = 111.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 18
+text = "
+"
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Play" type="Button" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 464.0
+offset_top = 320.0
+offset_right = 894.0
+offset_bottom = 500.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 96
+text = "PLAY"
+
+[node name="Label" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 96.0
+offset_top = 64.0
+offset_right = 834.0
+offset_bottom = 244.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 51
+text = "20 games challenge
+4. Jetpack Joyride
+by Mayzavan"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BestScoreLabel" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 88.0
+offset_top = 400.0
+offset_right = 218.0
+offset_bottom = 423.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 35
+text = "Best Score"
+
+[node name="CoinsLabel" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 16.0
+offset_top = 272.0
+offset_right = 206.0
+offset_bottom = 295.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 35
+text = "Coins collected"
+
+[node name="Coins" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 24.0
+offset_top = 320.0
+offset_right = 432.0
+offset_bottom = 371.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BestScore" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 16.0
+offset_top = 448.0
+offset_right = 448.0
+offset_bottom = 495.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpawnScientists" type="Timer" parent="."]
+wait_time = 4.0
+
+[node name="shotSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_vd7eb")
+
+[node name="ShootSFXTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="letsgo" from="character" to="." method="char_ready"]
+[connection signal="pressed" from="UI/Play" to="." method="start_game"]
+[connection signal="timeout" from="SpawnScientists" to="." method="_on_spawn_scientists_timeout"]
+[connection signal="timeout" from="ShootSFXTimer" to="." method="shootSFX"]

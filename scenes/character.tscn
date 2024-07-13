@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://dhuhgu06wtw1q"]
+
+[ext_resource type="Script" path="res://scripts/character.gd" id="1_6rgqx"]
+[ext_resource type="Texture2D" uid="uid://lke0p7nqx8ab" path="res://art/flyingcharacter.png" id="2_6vfdl"]
+[ext_resource type="Texture2D" uid="uid://i2xwleyvreoe" path="res://art/character2.png" id="4_kyhia"]
+[ext_resource type="AudioStream" uid="uid://ctqh3rwbshlko" path="res://sfx/shot.mp3" id="5_6y44y"]
+[ext_resource type="Texture2D" uid="uid://crxn2wbmw1cal" path="res://art/character3.png" id="5_p3pg7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7csp7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6vfdl")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("5_p3pg7")
+}, {
+"duration": 0.5,
+"texture": ExtResource("4_kyhia")
+}],
+"loop": false,
+"name": &"walking",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xpxr3"]
+size = Vector2(15, 31)
+
+[node name="character" type="CharacterBody2D"]
+scale = Vector2(2, 2)
+collision_mask = 233
+script = ExtResource("1_6rgqx")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7csp7")
+animation = &"walking"
+autoplay = "walking"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0.5)
+shape = SubResource("RectangleShape2D_xpxr3")
+
+[node name="MoveUp" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="MoveDown" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="shotSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_6y44y")
+volume_db = -20.0
+
+[connection signal="timeout" from="MoveUp" to="." method="flying"]
+[connection signal="timeout" from="MoveDown" to="." method="falling"]

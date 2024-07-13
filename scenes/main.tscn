@@ -1,0 +1,345 @@
+[gd_scene load_steps=20 format=3 uid="uid://h3f7co8rfxua"]
+
+[ext_resource type="PackedScene" uid="uid://bsap4pbcd2tdf" path="res://scenes/floor.tscn" id="1_r4yo0"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_ylew5"]
+[ext_resource type="PackedScene" uid="uid://dhuhgu06wtw1q" path="res://scenes/character.tscn" id="2_q82nf"]
+[ext_resource type="PackedScene" uid="uid://y173poibhpac" path="res://scenes/scientist.tscn" id="3_1w0ry"]
+[ext_resource type="PackedScene" uid="uid://b5v6u4twias3g" path="res://scenes/bullet.tscn" id="5_p6qbn"]
+[ext_resource type="Texture2D" uid="uid://b7jsv086yv0bm" path="res://art/coin.png" id="6_gxbc5"]
+[ext_resource type="PackedScene" uid="uid://8boxuuym5acy" path="res://scenes/beam.tscn" id="6_p7o3k"]
+[ext_resource type="FontFile" uid="uid://cwo2tc2qtq41u" path="res://karmatic-arcade/ka1.ttf" id="6_qiyce"]
+[ext_resource type="PackedScene" uid="uid://pvj14r4qacy8" path="res://scenes/laser.tscn" id="7_20664"]
+[ext_resource type="PackedScene" uid="uid://vwho7p20tugs" path="res://scenes/rocket.tscn" id="8_3lrqv"]
+[ext_resource type="Texture2D" uid="uid://dd1yknkko5cks" path="res://art/danger.png" id="9_b31l7"]
+[ext_resource type="PackedScene" uid="uid://djse5wbhgmf21" path="res://scenes/coin.tscn" id="10_oasm1"]
+[ext_resource type="AudioStream" uid="uid://c62vt4jteil7d" path="res://sfx/Explosion.wav" id="11_e01dc"]
+[ext_resource type="AudioStream" uid="uid://bqeuouhnpa4ed" path="res://sfx/Blip_Select.wav" id="12_efrgf"]
+[ext_resource type="AudioStream" uid="uid://bm46t024rjrvb" path="res://sfx/Pickup_Coin.wav" id="13_njt7g"]
+[ext_resource type="AudioStream" uid="uid://dycph858russr" path="res://sfx/dangert.wav" id="15_54gug"]
+[ext_resource type="AudioStream" uid="uid://dwkbj1x07nukw" path="res://music/retro-groove-202425.mp3" id="17_c8gkt"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_km12e"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_jue3u"]
+a = Vector2(0, 576)
+
+[node name="main" type="Node"]
+script = ExtResource("1_ylew5")
+bullet_scene = ExtResource("5_p6qbn")
+scientist_scene = ExtResource("3_1w0ry")
+rocket_scene = ExtResource("8_3lrqv")
+coin_scene = ExtResource("10_oasm1")
+beam_scene = ExtResource("6_p7o3k")
+laser_scene = ExtResource("7_20664")
+
+[node name="floor" parent="." instance=ExtResource("1_r4yo0")]
+
+[node name="character" parent="." instance=ExtResource("2_q82nf")]
+
+[node name="floorbody" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="top" type="CollisionShape2D" parent="floorbody"]
+shape = SubResource("SegmentShape2D_km12e")
+
+[node name="bottom" type="CollisionShape2D" parent="floorbody"]
+shape = SubResource("SegmentShape2D_jue3u")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Coin" type="Sprite2D" parent="HUD"]
+position = Vector2(19, 99)
+scale = Vector2(3.25, 3.25)
+texture = ExtResource("6_gxbc5")
+
+[node name="Score" type="Label" parent="HUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 8.0
+offset_top = 24.0
+offset_right = 206.0
+offset_bottom = 59.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+
+[node name="BestScore" type="Label" parent="HUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 226.0
+offset_bottom = 82.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 15
+vertical_alignment = 1
+
+[node name="Coins" type="Label" parent="HUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 40.0
+offset_top = 88.0
+offset_right = 92.0
+offset_bottom = 111.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 18
+text = "
+"
+
+[node name="UI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Play" type="Button" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 560.0
+offset_top = 312.0
+offset_right = 896.0
+offset_bottom = 440.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 81
+text = "PLAY"
+
+[node name="Title" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 96.0
+offset_top = 64.0
+offset_right = 834.0
+offset_bottom = 244.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 51
+text = "20 games challenge
+4. Jetpack Joyride
+by Mayzavan"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BestScoreLabel" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 88.0
+offset_top = 400.0
+offset_right = 218.0
+offset_bottom = 423.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 35
+text = "Best Score"
+
+[node name="CoinsLabel" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 16.0
+offset_top = 272.0
+offset_right = 206.0
+offset_bottom = 295.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 35
+text = "Coins collected"
+
+[node name="Coins" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 24.0
+offset_top = 320.0
+offset_right = 432.0
+offset_bottom = 371.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BestScore" type="Label" parent="UI"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 16.0
+offset_top = 448.0
+offset_right = 448.0
+offset_bottom = 495.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpawnScientists" type="Timer" parent="."]
+wait_time = 7.0
+
+[node name="Dangers" type="CanvasLayer" parent="."]
+
+[node name="0" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 32)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="1" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 96)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="2" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 160)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="3" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 224)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="4" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 288)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="5" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 352)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="6" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 416)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="7" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 480)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="8" type="Sprite2D" parent="Dangers"]
+visible = false
+position = Vector2(928, 544)
+scale = Vector2(3, 3)
+texture = ExtResource("9_b31l7")
+
+[node name="DangerTimer" type="Timer" parent="."]
+wait_time = 2.5
+
+[node name="LostHUD" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="BestScoreLabel" type="Label" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 24.0
+offset_top = 160.0
+offset_right = 512.0
+offset_bottom = 228.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 60
+text = "Best Score"
+
+[node name="CoinsLabel" type="Label" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 24.0
+offset_top = 288.0
+offset_right = 735.0
+offset_bottom = 356.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 60
+text = "Coins collected"
+
+[node name="Coins" type="Label" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 24.0
+offset_top = 368.0
+offset_right = 432.0
+offset_bottom = 419.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+text = "3425234"
+vertical_alignment = 1
+
+[node name="BestScore" type="Label" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 24.0
+offset_top = 240.0
+offset_right = 456.0
+offset_bottom = 287.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+text = "32452345"
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 512.0
+offset_bottom = 92.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 60
+text = "Score"
+
+[node name="Score" type="Label" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 32.0
+offset_top = 104.0
+offset_right = 464.0
+offset_bottom = 151.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+text = "32452345"
+vertical_alignment = 1
+
+[node name="NewRecord" type="Label" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 56.0
+offset_top = 32.0
+offset_right = 906.0
+offset_bottom = 135.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 91
+text = "NEW RECORD!!!"
+
+[node name="OldCoins" type="Label" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 32.0
+offset_top = 432.0
+offset_right = 272.0
+offset_bottom = 461.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 30
+text = "this run 1430"
+
+[node name="PlayAgainButton" type="Button" parent="LostHUD"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 552.0
+offset_top = 456.0
+offset_right = 927.0
+offset_bottom = 552.0
+theme_override_fonts/font = ExtResource("6_qiyce")
+theme_override_font_sizes/font_size = 46
+text = "Play again"
+
+[node name="hitSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_e01dc")
+volume_db = -40.0
+
+[node name="selectSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_efrgf")
+volume_db = -40.0
+
+[node name="coinSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_njt7g")
+volume_db = -25.0
+
+[node name="dangerSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_54gug")
+volume_db = -30.0
+
+[node name="Lasertimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_c8gkt")
+volume_db = -40.0
+mix_target = 1
+
+[connection signal="coined" from="character" to="." method="stolen"]
+[connection signal="hit" from="character" to="." method="game_lost"]
+[connection signal="letsgo" from="character" to="." method="char_ready"]
+[connection signal="pressed" from="UI/Play" to="." method="start_game"]
+[connection signal="timeout" from="SpawnScientists" to="." method="_on_spawn_scientists_timeout"]
+[connection signal="timeout" from="DangerTimer" to="." method="_on_danger_timer_timeout"]
+[connection signal="pressed" from="LostHUD/PlayAgainButton" to="." method="play_again"]
+[connection signal="timeout" from="Lasertimer" to="." method="_on_lasertimer_timeout"]

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://vwho7p20tugs"]
+
+[ext_resource type="Texture2D" uid="uid://ch80ydtiuv2u2" path="res://art/rocket.png" id="1_1nsvv"]
+[ext_resource type="Script" path="res://scripts/rocket.gd" id="1_evct5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j6etd"]
+size = Vector2(16, 10.6667)
+
+[node name="rocket" type="CharacterBody2D"]
+scale = Vector2(3, 3)
+collision_layer = 64
+script = ExtResource("1_evct5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1nsvv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_j6etd")

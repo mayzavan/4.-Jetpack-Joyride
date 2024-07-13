@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://y173poibhpac"]
+
+[ext_resource type="Texture2D" uid="uid://ccb58hk268s36" path="res://art/scientist.png" id="1_7hdc7"]
+[ext_resource type="Script" path="res://scripts/scientist.gd" id="1_8f0ng"]
+[ext_resource type="Texture2D" uid="uid://b7jsv086yv0bm" path="res://art/coin.png" id="3_tfis6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gjlyr"]
+size = Vector2(9, 16)
+
+[node name="scientist" type="CharacterBody2D"]
+scale = Vector2(3, 3)
+collision_layer = 2
+collision_mask = 12
+script = ExtResource("1_8f0ng")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_gjlyr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7hdc7")
+
+[node name="coin" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-11, 9.53674e-07)
+rotation = -1.5708
+texture = ExtResource("3_tfis6")
